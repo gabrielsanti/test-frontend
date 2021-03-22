@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carousel demo page</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/carousel.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <script type="text/javascript" src="js/carousel.js"></script>
+  </head>
+  <body>
+    <h1>Carousel demo page</h1>
+    <div id="my-carousel"></div>
+    <div id="my-carousel2"></div>
+    <div id="my-carousel3"></div>
+    <div id="my-carousel4"></div>
+    <div id="my-carousel5"></div>
+    <script type="text/javascript">
+      // set up possible values to randomly use inside the card objects
+      const types = ["video", "eLearning", "learning_plan", "playlist"];
+      const cardinalities = ["single", "collection"];
+      const languages = ["English", "", ""];
+      const titles = [
+        "Robot Plants Leash Fence",
+        "Plants Comics Elevator Bird",
+        "Drugs Boat Leash System",
+        "Ice cream Fusion Clock YouTube",
+        "Clock Fusion Body Sink",
+        "Bird Water Whale Ice cream",
+        "Cone Monster Whale Plants",
+        "Robot Fusion Trees Prints",
+        "Breakfast Solar Pop Robot",
+        "Drugs Breakfast Shoes Clock",
+      ];
+      /**
+       * Given a chunkSize will return a randomly generated set of cards objects
+       */
+      const generateChunk = (chunkSize) => {
+        let chunk = [];
+        for (let i = 0; i < chunkSize; i++) {
+          chunk.push({
+            image: "https://picsum.photos/300/200?random=" + Math.random(),
+            type: types[Math.floor(Math.random() * types.length)],
+            duration: 601,
+            title: titles[Math.floor(Math.random() * titles.length)],
+            cardinality:
+              cardinalities[Math.floor(Math.random() * cardinalities.length)],
+            language: languages[Math.floor(Math.random() * languages.length)],
+          });
+        }
+        return chunk;
+      };
+
+      // generate random amount of 'chunkSize' chunks, with random delay times
+      // will return an array of promises
+      const fetchCards = (chunkSize) => {
+          // Random amount of chunks of 'chunkSize' size (between 2 and 10)
+          const chunksAmount = Math.floor(Math.random() * (10 - 2) + 2);
+          let response = [];
+
+          //emulate delay between 0 and 10secs
+          for (let i = 0; i < chunksAmount; i++) {
+            response.push(
+              later(Math.random() * 10000, generateChunk(chunkSize))
+            );
+          }
+          return response;
+        }
+        // helper to return a promise which will resolve in the given time
+      function later(delay, value) {
+        return new Promise((resolve) => setTimeout(resolve, delay, value));
+      }
+      var options1 = {
+        container: "my-carousel",
+        title: "Fresh and just uploaded content",
+        subtitle: "Donec pellentesque sem sit amet sapien hendrerit, sit amet pretium.",
+        icon: "printer",
+        fetchCards: fetchCards,
+      };
+      var options2 = {
+        container: "my-carousel2",
+        title: "Look up for the new content just arrived",
+        subtitle: "Donec pellentesque sem sit amet sapien hendrerit, sit amet pretium.",
+        icon: "circle_notifications",
+        fetchCards: fetchCards,
+      };
+      var options3 = {
+        container: "my-carousel3",
+        title: "Scroll and find amazing stuff",
+        subtitle: "Donec pellentesque sem sit amet sapien hendrerit, sit amet pretium.",
+        icon: "backup",
+        fetchCards: fetchCards,
+      };
+      var options4 = {
+        container: "my-carousel4",
+        title: "Just more content",
+        subtitle: "Donec pellentesque sem sit amet sapien hendrerit, sit amet pretium.",
+        icon: "assessment",
+        fetchCards: fetchCards,
+      };
+      var options5 = {
+        container: "my-carousel5",
+        title: "One last instance to scroll right",
+        subtitle: "Donec pellentesque sem sit amet sapien hendrerit, sit amet pretium.",
+        icon: "laptop",
+        fetchCards: fetchCards,
+      };
+
+      var carousel1 = new Carousel(options1);
+      var carousel2 = new Carousel(options2);
+      var carousel3 = new Carousel(options3);
+      var carousel4 = new Carousel(options4);
+      var carousel5 = new Carousel(options5);
+      </script>
+  </body>
+</html>
